@@ -6,30 +6,69 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="d-flex flex-column h-100">
     <header>
-     <% if user_signed_in? %>
-      <li>
-        <%= link_to '投稿フォーム', new_post_image_path %>
-      </li>
-      <li>
-        <%= link_to 'マイページ', user_path(current_user.id) %>    </li>
-      <li>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-      </li>
-     <% else %>
-      <li>
-        <%= link_to "新規登録", new_user_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_user_session_path %>
-      </li>
-     <% end %>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand p-3" href="/"><%= image_tag('logo.png') %></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to '投稿フォーム', new_post_image_path, class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link' %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "新規登録", new_user_registration_path, class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ログイン", new_user_session_path, class: 'nav-link' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
     </header>
-    <%= yield %>
+    
+    <main role="main" class="flex-shrink-0" style="margin-top: 120px;">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
+    
+        <footer>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-bottom bg-dark">
+        <a class="navbar-brand navbar-brand-logo p-3"></a>
+        <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span>Link🔗</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <%= link_to 'プライバシーポリシー', new_post_image_path, class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'About', about_path, class: 'nav-link' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'お問い合わせ', about_path, class: 'nav-link' %>
+              </li>
+          </ul>
+        </div>
+      </nav>
+    </footer>
+    
   </body>
 </html>

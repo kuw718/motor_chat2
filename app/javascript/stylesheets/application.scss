@@ -1,0 +1,10 @@
+@use '~bootstrap/scss/bootstrap';
+
+footer {
+  height: 70px;
+  display: inline-block;
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: #343a40; /* ボタンの境界線の色を変更 */
+}
