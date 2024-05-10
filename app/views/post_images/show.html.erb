@@ -2,13 +2,15 @@
   <%= image_tag @post_image.get_image %>
   <p>ショップ名：<%= @post_image.title %></p>
   <p>説明：<%= @post_image.caption %></p>
-  <p>投稿ユーザー画像：<%= image_tag @post_image.user.get_profile_image(100,100) %></p>
-  <p>ユーザーネーム：<%= @post_image.user.name %></p>
+  <%= link_to customer_path(current_customer.id) do %>
+  <p><%= image_tag @post_image.customer.get_profile_image(100,100) %></p>
+  <% end %>
+  <p>ユーザーネーム：<%= @post_image.customer.name %></p>
   <p>投稿日時：<%= @post_image.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @post_image.user == current_user %>
+  <% if @post_image.customer == current_customer %>
     <%= link_to "削除", post_image_path(@post_image), method: :delete %>
   <% end %>
-    <% if @post_image.favorited_by?(current_user) %>
+    <% if @post_image.favorited_by?(current_customer) %>
     <p>
       <%= link_to post_image_favorite_path(@post_image), method: :delete do %>
         ♥<%= @post_image.favorites.count %> いいね
@@ -26,10 +28,10 @@
 <div>
   <p>コメント件数：<%= @post_image.post_comments.count %></p>
   <% @post_image.post_comments.each do |post_comment| %>
-    <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
-    <%= post_comment.user.name %>
+    <p><%= image_tag post_comment.customer.get_profile_image(100,100) %></p>
+    <%= post_comment.customer.name %>
     <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
-    <% if post_comment.user == current_user %>
+    <% if post_comment.customer == current_customer %>
       <%= link_to "削除", post_image_post_comment_path(post_comment.post_image, post_comment), method: :delete %>
     <% end %>
   <% end %>
