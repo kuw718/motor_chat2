@@ -1,13 +1,14 @@
 <% post_images.each do |post_image| %>
-<!-- @post_images → post_images -->
-  <div>
+  <div class="card mb-3">
     <%= link_to post_image_path(post_image.id) do %>
-      <%= image_tag post_image.get_image %>
+      <%= image_tag post_image.get_image, class: "card-img-top" %>
     <% end %>
-    <p>投稿ユーザー画像：<%= image_tag post_image.customer.get_profile_image(100,100) %></p>
-    <p>タイトル：<%= post_image.title %></p>
-    <p>説明：<%= post_image.caption %></p>
-    <p>ユーザーネーム：<%= post_image.customer.name %></p>
-    <p><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
+    <div class="card-body">
+      <p class="card-text">投稿ユーザー画像：<%= image_tag post_image.customer.get_profile_image(100,100), class: "rounded-circle" %></p>
+      <h5 class="card-title"><%= post_image.title %></h5>
+      <p class="card-text"><%= post_image.caption %></p>
+      <p class="card-text"><%= post_image.customer.name %></p>
+      <p class="card-text"><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
+    </div>
   </div>
 <% end %>

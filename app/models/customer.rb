@@ -7,6 +7,10 @@ class Customer < ApplicationRecord
   has_many :post_images, dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :followers, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :following_customers, through: :followers, source: :followed
+  has_many :follower_customers, through: :followeds, source: :follower
   has_one_attached :profile_image
   
   def get_profile_image(width, height)
@@ -16,4 +20,16 @@ class Customer < ApplicationRecord
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
+  
+  def follow(customer_id)
+    followers.create(followed_id: customer_id)
+  end
+
+  def unfollow(customer_id)
+    followers.find_by(followed_id: customer_id).destroy
+  end
+
+  def following?(customer)
+    following_customers.include?(customer)
+  end	
 end

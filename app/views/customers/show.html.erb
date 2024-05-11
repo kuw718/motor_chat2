@@ -7,5 +7,31 @@
   <% end %>
 </div>
 
+<th>Follows</th>
+      <td>
+        <%= link_to follows_customer_path(@customer) do %>
+          <h6><%= @customer.followers.count %></h6>
+        <% end %> 
+      </td>
+      </tr>
+      <tr>  
+        <th>Followers</th>
+        <td>  
+          <%= link_to followers_customer_path(@customer) do %>
+            <h6><%= @customer.followeds.count %></h6>
+          <% end %>
+        </td>
+      </tr> 
+      <tr>
+      <td>
+      <% if current_customer != @customer %>
+          <% if current_customer.following?(@customer) %>
+            <%= link_to "フォロー外す", customer_relationships_path(@customer), method: :delete, class: "btn btn-danger" %>
+          <% else %>
+            <%= link_to "フォローする", customer_relationships_path(@customer), method: :post, class:"btn btn-success" %>
+          <% end %>
+        <% end %>
+      </td>
+
 <!-- ユーザーの投稿一覧 -->
 <%= render 'post_images/list', post_images: @post_images %>
