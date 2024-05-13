@@ -1,0 +1,5 @@
+<% if @post_image.favorited_by?(current_customer) %>
+  $('#favorites_buttons_<%= @post_image.id %>').html('<%= link_to "♥", post_image_favorite_path(@post_image), method: :delete, remote: true, class: "favorite-link" %> <%= @post_image.favorites.count %> いいね');
+<% else %>
+  $('#favorites_buttons_<%= @post_image.id %>').html('<%= link_to "♡", post_image_favorite_path(@post_image), method: :post, remote: true, class: "favorite-link" %> <%= @post_image.favorites.count %> いいね');
+<% end %>

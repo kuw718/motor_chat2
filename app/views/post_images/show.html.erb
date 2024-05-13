@@ -1,3 +1,5 @@
+
+
 <div class="card mb-3">
   <%= link_to post_image_path(@post_image) do %>
     <%= image_tag @post_image.get_image, class: "card-img-top" %>
@@ -15,18 +17,22 @@
     <% if @post_image.customer == current_customer %>
       <%= link_to "削除", post_image_path(@post_image), method: :delete, class: "btn btn-danger btn-sm me-2" %>
     <% end %>
-    <p>
-      <% if @post_image.favorited_by?(current_customer) %>
-        <%= link_to post_image_favorite_path(@post_image), method: :delete, class: "btn btn-primary btn-sm" do %>
-          ♥ <%= @post_image.favorites.count %> いいね
-        <% end %>
-      <% else %>
-        <%= link_to post_image_favorite_path(@post_image), method: :post, class: "btn btn-outline-primary btn-sm" do %>
-          ♡ <%= @post_image.favorites.count %> いいね
-        <% end %>
-      <% end %>
-    </p>
+  <p>
+  <div id="favorites_buttons_<%= @post_image.id %>" style="position: relative;">
+  <!-- ♡と♥ボタン以外をクリックできないようにする為、透明な子要素を挿入しています -->
+  <div class="transparent-cover" style="position: absolute; top: 0; left: 1%; width: 80%; height: 100%; pointer-events: auto;"></div>
+  <% if @post_image.favorited_by?(current_customer) %>
+    <%= link_to post_image_favorite_path(@post_image), method: :delete, remote: true, class: "favorite-link" do %>
+      <span class="favorite-icon">♥</span> <%= @post_image.favorites.count %> いいね
+    <% end %>
+  <% else %>
+    <%= link_to post_image_favorite_path(@post_image), method: :post, remote: true, class: "favorite-link" do %>
+      <span class="favorite-icon">♡</span> <%= @post_image.favorites.count %> いいね
+    <% end %>
+  <% end %>
   </div>
+  </p>
+ </div>
 </div>
 
 <div class="card mb-3">
@@ -45,9 +51,10 @@
   </div>
 </div>
 
-    <%= form_with model: [@post_image, @post_comment], class: "mb-0" do |f| %>
-      <%= f.text_area :comment, rows: '3', placeholder: "コメントをここに", class: "form-control mb-2" %>
-      <%= f.submit "送信する", class: "btn btn-primary btn-sm" %>
-    <% end %>
+<%= form_with model: [@post_image, @post_comment], remote: true, class: "mb-0" do |f| %>
+  <%= f.text_area :comment, rows: '3', placeholder: "コメントをここに", class: "form-control mb-2" %>
+  <%= f.submit "送信する", class: "btn btn-primary btn-sm" %>
+<% end %>
+
   </div>
 </div>

@@ -8,3 +8,17 @@ footer {
 .custom-toggler.navbar-toggler {
   border-color: #343a40; /* ボタンの境界線の色を変更 */
 }
+
+.favorite-link {
+  text-decoration: none; /* 下線を削除 */
+  color: black;
+}
+
+.favorite-link:hover {
+  text-decoration: none; /* ホバー時にも下線を削除 */
+  color: black;
+}
+
+.favorite-link .count-text {
+  pointer-events: none;
+}
