@@ -1,7 +1,7 @@
 class PostImagesController < ApplicationController
+  before_action :select_database
 
   def new
-    ActiveRecord::Base.connection.execute("USE Motor_Chat")
     @post_image = PostImage.new
   end
   
@@ -28,6 +28,10 @@ class PostImagesController < ApplicationController
   end
   
   private
+
+  def select_database
+    ActiveRecord::Base.connection.execute("USE Motor_Chat")
+  end
 
   def post_image_params
     params.require(:post_image).permit(:title, :image, :caption)
