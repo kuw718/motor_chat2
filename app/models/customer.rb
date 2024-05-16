@@ -3,7 +3,7 @@ class Customer < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+
   has_many :post_images, dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -12,7 +12,7 @@ class Customer < ApplicationRecord
   has_many :following_customers, through: :followers, source: :followed
   has_many :follower_customers, through: :followeds, source: :follower
   has_one_attached :profile_image
-  
+
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/sample1.jpg')
@@ -20,7 +20,7 @@ class Customer < ApplicationRecord
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
-  
+
   def follow(customer_id)
     followers.create(followed_id: customer_id)
   end
@@ -31,5 +31,5 @@ class Customer < ApplicationRecord
 
   def following?(customer)
     following_customers.include?(customer)
-  end	
+  end
 end
