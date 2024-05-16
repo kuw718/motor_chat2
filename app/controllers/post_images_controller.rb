@@ -1,7 +1,7 @@
 class PostImagesController < ApplicationController
 
   def new
-    ActiveRecord::Base.connection.execute("Motor_Chat")
+    ActiveRecord::Base.connection.execute("USE Motor_Chat")
     @post_image = PostImage.new
   end
   
