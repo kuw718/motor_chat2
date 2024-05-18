@@ -3,8 +3,12 @@ class GroupsController < ApplicationController
 
   def index
     @group_lists = Group.all
-    @group_joining = current_customer.groups
-    @group_lists_none = "グループに参加していません。"
+    if current_customer
+      @group_joining = current_customer.groups
+    else
+      @group_joining = []
+      @group_lists_none = "ログインしていません。"
+    end
   end
 
   def new
@@ -66,6 +70,6 @@ class GroupsController < ApplicationController
   end
   
 def post_params
-  params.permit(:nickname, :comment)
+  params.permit(:comment)
 end
 end

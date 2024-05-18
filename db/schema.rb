@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2024_05_18_092727) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "nickname"
+    t.string "customer_id"
     t.text "comment"
     t.integer "group_id"
     t.datetime "created_at", precision: 6, null: false

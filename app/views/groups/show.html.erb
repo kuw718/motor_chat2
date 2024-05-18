@@ -1,37 +1,49 @@
 <div class="group-show">
-    <div class="show-group-chat-back">
-        <span class="group-show-group-chat-back">
-            <%= link_to groups_path do %>
-                ＜
-            <% end %>
-        </span>
+  <div class="show-group-chat-back">
+    <span class="group-show-group-chat-back">
+      <%= link_to groups_path do %>
+        ＜
+      <% end %>
+    </span>
+  </div>
+
+  <div class="chat-group-show-talk">
+    <h2>トーク</h2>
+
+    <div class="chat-form">
+      <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form") do |f| %>
+        <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
+        <%= f.submit '投稿', class: "post-button" %>
+      <% end %>
     </div>
 
-    <div class="chat-group-show-talk">
-        <h2>トーク</h2>
-
-        <div class="chat-form">
-            <%= form_with(url: { action: "create_post" }, method: "post", class: "post-form") do |f| %>
-                <%= f.text_field :nickname, placeholder: "ニックネーム", class: "nickname-field" %>
-                <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
-                <%= f.submit '投稿', class: "post-button" %>
-            <% end %>
-        </div>
-
-        <% if @posts.present? %>
-            <div class="posts">
-                <% @posts.each do |post| %>
-                    <div class="post">
-                        <div class="post-info">
-                            <span class="post-nickname"><%= post.nickname %></span>
-                            <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
-                        </div>
-                        <div class="post-comment"><%= post.comment %></div>
-                    </div>
+    <% if @posts.present? %>
+      <div class="posts">
+        <% @posts.each_with_index do |post, index| %>
+          <div class="post">
+            <div class="post-content">
+              <span class="post-number"><%= index + 1 %>:</span>
+              <% if post.customer.present? %>
+                <%= link_to customer_path(post.customer), class: "post-customer-link" do %>
+                  <% if post.customer.profile_image.attached? %>
+                    <%= image_tag post.customer.get_profile_image(80, 80), class: "rounded-circle" %>
+                  <% else %>
+                    <%= image_tag "default_profile_image.jpg", class: "rounded-circle", width: 80, height: 80 %>
+                  <% end %>
+                  <span class="post-customer"><%= post.customer.name %></span>
                 <% end %>
+              <% else %>
+                <span class="post-customer">匿名ユーザー</span>
+              <% end %>
+              <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
             </div>
-        <% else %>
-            <p>投稿がありません。</p>
+            <div class="post-comment"><%= post.comment %></div>
+          </div>
         <% end %>
-    </div>
+      </div>
+    <% else %>
+      <p>投稿がありません。</p>
+    <% end %>
+  </div>
 </div>
+

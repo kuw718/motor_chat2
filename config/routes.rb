@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       resource :relationships, only: [:create, :destroy]
   end
   resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-    post 'create_post', on: :member
+    resources :posts, only: [:create], shallow: true
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
