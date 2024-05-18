@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_11_033459) do
+ActiveRecord::Schema.define(version: 2024_05_18_092727) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -72,6 +72,22 @@ ActiveRecord::Schema.define(version: 2024_05_11_033459) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "group_customers", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_group_customers_on_customer_id"
+    t.index ["group_id"], name: "index_group_customers_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
+  end
+
   create_table "post_comments", force: :cascade do |t|
     t.text "comment"
     t.integer "customer_id"
@@ -88,6 +104,15 @@ ActiveRecord::Schema.define(version: 2024_05_11_033459) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string "nickname"
+    t.text "comment"
+    t.integer "group_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_posts_on_group_id"
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -97,4 +122,7 @@ ActiveRecord::Schema.define(version: 2024_05_11_033459) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "group_customers", "customers"
+  add_foreign_key "group_customers", "groups"
+  add_foreign_key "posts", "groups"
 end

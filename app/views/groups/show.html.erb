@@ -1,0 +1,37 @@
+<div class="group-show">
+    <div class="show-group-chat-back">
+        <span class="group-show-group-chat-back">
+            <%= link_to groups_path do %>
+                ＜
+            <% end %>
+        </span>
+    </div>
+
+    <div class="chat-group-show-talk">
+        <h2>トーク</h2>
+
+        <div class="chat-form">
+            <%= form_with(url: { action: "create_post" }, method: "post", class: "post-form") do |f| %>
+                <%= f.text_field :nickname, placeholder: "ニックネーム", class: "nickname-field" %>
+                <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
+                <%= f.submit '投稿', class: "post-button" %>
+            <% end %>
+        </div>
+
+        <% if @posts.present? %>
+            <div class="posts">
+                <% @posts.each do |post| %>
+                    <div class="post">
+                        <div class="post-info">
+                            <span class="post-nickname"><%= post.nickname %></span>
+                            <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
+                        </div>
+                        <div class="post-comment"><%= post.comment %></div>
+                    </div>
+                <% end %>
+            </div>
+        <% else %>
+            <p>投稿がありません。</p>
+        <% end %>
+    </div>
+</div>

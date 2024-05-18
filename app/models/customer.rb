@@ -11,6 +11,8 @@ class Customer < ApplicationRecord
   has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :following_customers, through: :followers, source: :followed
   has_many :follower_customers, through: :followeds, source: :follower
+  has_many :group_customers, dependent: :destroy
+  has_many :groups, through: :group_customers, dependent: :destroy
   has_one_attached :profile_image
 
   def get_profile_image(width, height)
@@ -31,5 +33,9 @@ class Customer < ApplicationRecord
 
   def following?(customer)
     following_customers.include?(customer)
+  end
+  
+  def customername
+    name
   end
 end

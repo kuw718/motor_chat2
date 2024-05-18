@@ -21,5 +21,8 @@ Rails.application.routes.draw do
     end
       resource :relationships, only: [:create, :destroy]
   end
+  resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+    post 'create_post', on: :member
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
