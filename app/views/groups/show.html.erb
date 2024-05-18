@@ -11,10 +11,11 @@
     <h2>トーク</h2>
 
     <div class="chat-form">
-      <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form") do |f| %>
-        <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
-        <%= f.submit '投稿', class: "post-button" %>
-      <% end %>
+<%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
+  <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
+  <%= f.file_field :image %> <!-- 写真をアップロードするフィールド -->
+  <%= f.submit '投稿', class: "post-button" %>
+<% end %>
     </div>
 
     <% if @posts.present? %>
@@ -38,6 +39,9 @@
               <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
             </div>
             <div class="post-comment"><%= post.comment %></div>
+            <% if post.image.attached? %>
+              <%= image_tag url_for(post.image), class: "post-image", size: "270x200" %>
+           <% end %>
           </div>
         <% end %>
       </div>
