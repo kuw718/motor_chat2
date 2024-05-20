@@ -1,0 +1,13 @@
+<h2>top</h2>
+<li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'menu-button' %></li>
+
+<h2>ユーザー情報一覧</h2>
+
+<% @customers.each do |customer| %>
+  <div>
+    <p>Name: <%= customer.name %></p>
+    <p>Email: <%= customer.email %></p>
+    <%= link_to '編集', edit_admin_customer_path(customer) %>
+    <%= link_to '退会', admin_customer_path(customer), method: :delete, data: { confirm: '本当に退会しますか？' } %>
+  </div>
+<% end %>

@@ -4,9 +4,13 @@ class GroupsController < ApplicationController
   def index
     @group_lists = Group.all
     if current_customer
+      # ログインしているユーザーが所属しているグループのリストを取得
       @group_joining = current_customer.groups
+      # 他のユーザーが作成したグループのリストを取得
+      @other_groups = Group.where.not(id: @group_joining.pluck(:id))
     else
       @group_joining = []
+      @other_groups = Group.all
       @group_lists_none = "ログインしていません。"
     end
   end

@@ -1,15 +1,13 @@
-
-
 <div class="card mb-3">
   <%= link_to post_image_path(@post_image) do %>
-    <%= image_tag @post_image.get_image, class: "card-img-top" %>
+    <%= image_tag @post_image.get_image, class: "card-img-top image-slide-down" %>
   <% end %>
   <div class="card-body">
     <p class="card-text">ショップ名：<%= @post_image.title %></p>
     <p class="card-text">説明：<%= @post_image.caption %></p>
     <div class="d-flex align-items-center">
-      <%= link_to customer_path(@post_image) do %>
-        <%= image_tag @post_image.customer.get_profile_image(100,100), class: "rounded-circle me-2" %>
+      <%= link_to customer_path(@post_image.customer) do %>
+        <%= image_tag @post_image.customer.get_profile_image(100,100), class: "rounded-circle me-2 image-slide-down" %>
       <% end %>
       <p class="card-text mb-0"><%= @post_image.customer.name %></p>
     </div>
@@ -17,22 +15,22 @@
     <% if @post_image.customer == current_customer %>
       <%= link_to "削除", post_image_path(@post_image), method: :delete, class: "btn btn-danger btn-sm me-2" %>
     <% end %>
-  <p>
-  <div id="favorites_buttons_<%= @post_image.id %>" style="position: relative;">
-  <!-- ♡と♥ボタン以外をクリックできないようにする為、透明な子要素を挿入しています -->
-  <div class="transparent-cover" style="position: absolute; top: 0; left: 1%; width: 80%; height: 100%; pointer-events: auto;"></div>
-  <% if @post_image.favorited_by?(current_customer) %>
-    <%= link_to post_image_favorite_path(@post_image), method: :delete, remote: true, class: "favorite-link" do %>
-      <span class="favorite-icon">♥</span> <%= @post_image.favorites.count %> いいね
-    <% end %>
-  <% else %>
-    <%= link_to post_image_favorite_path(@post_image), method: :post, remote: true, class: "favorite-link" do %>
-      <span class="favorite-icon">♡</span> <%= @post_image.favorites.count %> いいね
-    <% end %>
-  <% end %>
-  </div>
-  </p>
- </div>
+    <p>
+    <div id="favorites_buttons_<%= @post_image.id %>" style="position: relative;">
+    <!-- ♡と♥ボタン以外をクリックできないようにする為、透明な子要素を挿入しています -->
+      <div class="transparent-cover" style="position: absolute; top: 0; left: 1%; width: 80%; height: 100%; pointer-events: auto;"></div>
+      <% if @post_image.favorited_by?(current_customer) %>
+        <%= link_to post_image_favorite_path(@post_image), method: :delete, remote: true, class: "favorite-link" do %>
+          <span class="favorite-icon">♥</span> <%= @post_image.favorites.count %> いいね
+        <% end %>
+      <% else %>
+        <%= link_to post_image_favorite_path(@post_image), method: :post, remote: true, class: "favorite-link" do %>
+          <span class="favorite-icon">♡</span> <%= @post_image.favorites.count %> いいね
+        <% end %>
+      <% end %>
+    </div>
+    </p>
+   </div>
 </div>
 
 <div class="card mb-3">
@@ -40,7 +38,7 @@
     <h5 class="card-title">コメント件数：<%= @post_image.post_comments.count %></h5>
     <% @post_image.post_comments.each do |post_comment| %>
       <div class="d-flex align-items-center mb-2">
-        <%= image_tag post_comment.customer.get_profile_image(100,100), class: "rounded-circle me-2" %>
+        <%= image_tag post_comment.customer.get_profile_image(100,100), class: "rounded-circle me-2 image-slide-down" %>
         <p class="card-text mb-0"><%= post_comment.customer.name %></p>
       </div>
       <p class="card-text"><%= post_comment.created_at.strftime('%Y/%m/%d') %> <%= post_comment.comment %></p>
@@ -56,5 +54,10 @@
   <%= f.submit "送信する", class: "btn btn-primary btn-sm" %>
 <% end %>
 
-  </div>
-</div>
+<% if ($featured_images ||= []).include?(@post_image.id) %>
+  <%= link_to '自動車盗難情報共有を取り消す', unset_featured_post_image_path(@post_image), method: :post %>
+<% else %>
+  <%= link_to '自動車盗難情報を共有', set_featured_post_image_path(@post_image), method: :post %>
+<% end %>
+
+

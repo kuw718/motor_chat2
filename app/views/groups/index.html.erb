@@ -31,6 +31,22 @@
      </div>
 <% end %>
 
+<% if @other_groups.present? %>
+  <div class="group-list">
+    <ul class="group-list-table">
+      <% @other_groups.each do |group| %>
+        <li class="group-list-item">
+          <%= link_to group_path(group) do %>
+            <span class="group-name"><%= group.name %></span>
+            <span class="group-member-count">(<%= group.customer_ids.count %>)</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
     <div class="customer-page">
         <%= link_to 'マイページへ', current_customer, class: "customer-page-link" %>
     </div>

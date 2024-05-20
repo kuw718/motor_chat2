@@ -13,33 +13,36 @@
   <body class="d-flex flex-column h-100">
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand p-3" href="/"><%= image_tag('logo.png') %></a>
+        <a class="navbar-brand p-2" href="/"><%= image_tag('logo.png') %></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav ml-auto">
-            <% if customer_signed_in? %>
-              <li class="nav-item">
-                <%= link_to '投稿フォーム', new_post_image_path, class: 'nav-link' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to 'マイページ', customer_path(current_customer.id), class: 'nav-link' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link' %>
-              </li>
-            <% else %>
-              <li class="nav-item">
-                <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "ログイン", new_customer_session_path, class: 'nav-link' %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      </nav>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+      <% if customer_signed_in? %>
+        <li class="nav-item">
+          <%= link_to '投稿一覧', post_images_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to '掲示板', groups_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'マイページ', customer_path(current_customer.id), class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link' %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_customer_session_path, class: 'nav-link' %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+    </nav>
     </header>
     
     <main role="main" class="flex-shrink-0" style="margin-top: 120px;">

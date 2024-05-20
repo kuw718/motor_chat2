@@ -22,3 +22,31 @@ footer {
 .favorite-link .count-text {
   pointer-events: none;
 }
+
+.new-post-button {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  z-index: 999;
+}
+
+.button:hover {
+  box-shadow   : none;                 /* 影の設定 */
+  opacity      : 0.8;                  /* 透明度 */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image-slide-down {
+  opacity: 0;
+  animation: slideDown 5s forwards;
+}

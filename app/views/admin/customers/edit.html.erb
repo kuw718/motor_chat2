@@ -1,0 +1,17 @@
+<!-- app/views/admin/customers/edit.html.erb -->
+
+<h2>Edit Customer</h2>
+
+<%= form_with(model: @customer, url: admin_customer_path(@customer), method: :patch) do |form| %>
+  <div class="field">
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %><br>
+    <%= form.email_field :email %>
+  </div>
+
+  <%= form.submit "Update Customer" %>
+<% end %>

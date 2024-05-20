@@ -1,2 +1,85 @@
-<h1>Homes#top</h1>
-<p>Find me in app/views/homes/top.html.erb</p>
+<% unless @featured_post_images.empty? %>
+  <div class="featured-posts">
+    <h2>現在の自動車盗難情報はこちら</h2>
+    <% @featured_post_images.each do |post_image| %>
+      <div class="card mb-3">
+        <%= link_to post_image_path(post_image.id) do %>
+          <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down" %>
+        <% end %>
+        <div class="card-body">
+          <p class="card-text">ショップ名：<%= post_image.title %></p>
+          <p class="card-text">説明：<%= post_image.caption %></p>
+          <div class="d-flex align-items-center">
+              <%= image_tag post_image.customer.get_profile_image(100, 100), class: "rounded-circle me-2 image-slide-down" %>
+            <p class="card-text mb-0"><%= post_image.customer.name %></p>
+          </div>
+          <p class="card-text">投稿日時：<%= post_image.created_at.strftime('%Y/%m/%d') %></p>
+          <p class="card-text"><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
+        </div>
+      </div>
+    <% end %>
+    <h5>情報をお持ちの方、協力してくださる方はコメントでの情報共有をお願い致しますm_ _m</h5>
+  </div>
+<% end %>
+
+<br><br><br>
+
+<h2>みんなの投稿</h2>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <% @post_images.shuffle.take(4).each do |post_image| %>
+    <div class="col">
+      <div class="card mb-3">
+        <%= link_to post_image_path(post_image.id) do %>
+          <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down" %>
+        <% end %>
+        <div class="card-body">
+          <p class="card-text">投稿ユーザー画像：<%= image_tag post_image.customer.get_profile_image(100,100), class: "rounded-circle image-slide-down" %></p>
+          <h5 class="card-title"><%= post_image.title %></h5>
+          <p class="card-text"><%= post_image.caption %></p>
+          <p class="card-text"><%= post_image.customer.name %></p>
+          <p class="card-text"><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= link_to "すべての投稿を見る＞", post_images_path %>
+
+<br><br><br>
+
+<h2>新着スレ</h2>
+<% if @group_joining.empty? %>
+  <p class="no-groups">参加中のグループはありません。</p>
+<% else %>
+  <div class="group-list">
+    <ul class="list-group mb-4">
+      <% @group_joining.each do |group| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to group_path(group), class: 'text-decoration-none text-dark' do %>
+            <span class="group-name">★<%= group.name %></span>
+          <% end %>
+          <span class="badge bg-primary rounded-pill"><%= group.customer_ids.count %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if @other_groups.present? %>
+  <div class="group-list">
+    <ul class="list-group">
+      <% @other_groups.each do |group| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= link_to group_path(group), class: 'text-decoration-none text-dark' do %>
+            <span class="group-name">★<%= group.name %></span>
+          <% end %>
+          <span class="badge bg-primary rounded-pill"><%= group.customer_ids.count %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<br>
+
+<%= link_to "すべてのスレを見る＞", groups_path %>

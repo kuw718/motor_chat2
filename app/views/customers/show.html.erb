@@ -35,3 +35,11 @@
 
 <!-- ユーザーの投稿一覧 -->
 <%= render 'post_images/list', post_images: @post_images %>
+
+<!-- 新規投稿ボタン（画像） -->
+<%= link_to new_post_image_path, class: "new-post-button", id: "newPostButton" do %>
+  <%= image_tag "20739.png", class: "button", onclick: "goClick()", width: 130, height: 130, alt: "投稿ボタン" %>
+<% end %>
+
+<!-- 例: app/views/customers/show.html.erb -->
+<%= link_to 'いいね一覧', liked_posts_customer_path(@customer), class: 'btn btn-primary' %>

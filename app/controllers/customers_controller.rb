@@ -26,6 +26,10 @@ class CustomersController < ApplicationController
     @customer = customer.follower_customers
   end
 
+  def liked_posts
+    @liked_posts = current_customer.liked_posts
+  end
+
   private
 
   def customer_params
