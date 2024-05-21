@@ -13,6 +13,7 @@ class PostImagesController < ApplicationController
   
   def index
     @post_images = PostImage.all
+    @post_images = PostImage.includes(:customer, :post_comments).page(params[:page]).per(10)
   end
 
   def show

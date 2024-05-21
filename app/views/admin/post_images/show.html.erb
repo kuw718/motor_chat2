@@ -1,0 +1,29 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= @post_image.title %></h5>
+    <p class="card-text"><%= @post_image.caption %></p>
+    <%= image_tag @post_image.get_image, class: "card-img-top image-slide-down" %>
+    <%= link_to '編集', edit_admin_post_image_path(@post_image), class: 'btn btn-primary' %>
+    <%= link_to '削除', admin_post_image_path(@post_image), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+  </div>
+</div>
+
+<h2>コメント一覧</h2>
+
+<% @post_image.post_comments.each do |post_comment| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex align-items-center mb-2">
+        <%= image_tag post_comment.customer.get_profile_image(100,100), class: "rounded-circle me-2 image-slide-down" %>
+        <p class="card-text mb-0"><%= post_comment.customer.name %></p>
+      </div>
+      <p class="card-text"><%= post_comment.created_at.strftime('%Y/%m/%d') %> <%= post_comment.comment %></p>
+      <%= link_to '編集', edit_admin_post_image_post_comment_path(@post_image, post_comment), class: 'btn btn-primary btn-sm' %>
+      <%= link_to '削除', admin_post_image_post_comment_path(@post_image, post_comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger btn-sm' %>
+    </div>
+  </div>
+<% end %>
+
+
+<%= link_to 'ユーザーの投稿一覧に戻る', admin_post_images_path, class: 'btn btn-secondary' %>
+

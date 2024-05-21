@@ -1,0 +1,20 @@
+<h1>投稿編集</h1>
+
+<%= form_with model: [:admin, @post_image], local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :caption %>
+    <%= f.text_area :caption, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :image %>
+    <%= f.file_field :image, class: "form-control" %>
+  </div>
+
+  <%= f.submit '更新する', class: "btn btn-primary" %>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>投稿一覧</h1>
+
+<% @post_images.each do |post_image| %>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-2">
+        <%= link_to admin_post_image_path(post_image) do %>
+          <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down", loading: "lazy" %>
+        <% end %>
+      </div>
+      <div class="col-10">
+        <div class="card-body">
+          <h5 class="card-title"><%= link_to post_image.title, admin_post_image_path(post_image) %></h5>
+          <p class="card-text"><%= post_image.caption %></p>
+          <%= link_to '編集', edit_admin_post_image_path(post_image), class: 'btn btn-primary' %>
+          <%= link_to '削除', admin_post_image_path(post_image), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+

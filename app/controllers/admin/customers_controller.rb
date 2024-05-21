@@ -3,33 +3,35 @@ class Admin::CustomersController < ApplicationController
   before_action :set_customer, only: [:edit, :update, :destroy, :unsubscribe]
 
   def show
-    # 表示用のアクション
   end
 
   def edit
-    # 編集用のアクション
   end
 
   def update
-    if @customer.update(customer_params)
-      redirect_to admin_path, notice: "Customer was successfully updated." # /adminにリダイレクトする
-    else
-      render :edit
+    retry_count = 0
+    begin
+      ActiveRecord::Base.transaction do
+        if @customer.update(customer_params)
+          redirect_to admin_path, notice: "Customer was successfully updated."
+        else
+          render :edit
+        end
+      end
+    rescue ActiveRecord::StatementInvalid => e
+      if e.message.include?("database is locked") && retry_count < 5
+        retry_count += 1
+        sleep(0.1)
+        retry
+      else
+        raise e
+      end
     end
   end
 
   def destroy
-    set_customer
-    if @customer
-      @customer.destroy
-      redirect_to admin_path, notice: "Customer was successfully destroyed."
-    else
-      redirect_to admin_path, alert: "Customer not found."
-    end
-  end
-
-  def unsubscribe
-    # 退会用のアクションを実装する
+    @customer.destroy
+    redirect_to admin_customers_path, notice: "Customer was successfully destroyed."
   end
 
   private
@@ -39,6 +41,6 @@ class Admin::CustomersController < ApplicationController
   end
 
   def customer_params
-    params.require(:customer).permit(:name, :email) # 適切なパラメーターを許可する
+    params.require(:customer).permit(:name, :email, :profile_image)
   end
 end

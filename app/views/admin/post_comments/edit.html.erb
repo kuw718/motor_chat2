@@ -1,0 +1,11 @@
+<h1>コメント編集</h1>
+
+<%= form_with model: [:admin, @post_image, @post_comment], local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :comment %>
+    <%= f.text_area :comment, class: "form-control" %>
+  </div>
+  <%= f.submit '更新', class: "btn btn-primary" %>
+<% end %>
+
+<%= link_to '戻る', admin_post_image_path(@post_image), class: "btn btn-secondary" %>

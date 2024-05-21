@@ -1,13 +1,62 @@
-<h2>top</h2>
 <li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'menu-button' %></li>
 
-<h2>ユーザー情報一覧</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">ユーザー情報一覧</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Profile Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @customers.each do |customer| %>
+              <tr>
+                <td><%= customer.name %></td>
+                <td><%= customer.email %></td>
+                <td><%= image_tag customer.get_profile_image(100,100), class: "img-thumbnail" %></td>
+                <td>
+                  <%= link_to '編集', edit_admin_customer_path(customer), class: "btn btn-outline-secondary btn-sm mr-2" %>
+                  <%= link_to '退会', admin_customer_path(customer), method: :delete, data: { confirm: '本当に退会しますか？' }, class: "btn btn-outline-danger btn-sm" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%= paginate @customers %>
+    </div>
 
-<% @customers.each do |customer| %>
-  <div>
-    <p>Name: <%= customer.name %></p>
-    <p>Email: <%= customer.email %></p>
-    <%= link_to '編集', edit_admin_customer_path(customer) %>
-    <%= link_to '退会', admin_customer_path(customer), method: :delete, data: { confirm: '本当に退会しますか？' } %>
+    <div class="col-md-6">
+      <div class="admin-groups">
+        <h2 class="text-center mb-4">管理者用チャットグループ一覧</h2>
+        <div class="list-group">
+          <% @groups.each do |group| %>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <%= link_to admin_group_path(group), class: "list-group-item list-group-item-action" do %>
+              <div>
+                <h5 class="mb-1"><%= group.name %></h5>
+                <p class="mb-1">メンバー数: <%= group.customers.count %></p>
+              </div>
+              <% end %>
+              <div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '編集', edit_group_path(group), class: "btn btn-outline-secondary btn-sm mr-2 edit-group-link" %>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '削除', admin_group_path(group), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-outline-danger btn-sm delete-group-link" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <%= paginate @groups %>
+    </div>
   </div>
-<% end %>
+</div>
+
+<br></br>
+
+<h2>ユーザー投稿一覧は<%= link_to 'こちら', admin_post_images_path %></h2>

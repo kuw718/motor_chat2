@@ -1,0 +1,41 @@
+<div class="admin-group-show">
+  <div class="group-show-header">
+    <span class="group-show-back">
+      <%= link_to admin_path do %>
+        ＜ 戻る
+      <% end %>
+    </span>
+    <h2>グループ名: <%= @group.name %></h2>
+  </div>
+
+    <div class="posts">
+      <% if @posts.present? %>
+        <% @posts.each do |post| %>
+          <div class="post card">
+            <div class="card-body">
+
+              <div class="post-content">
+                <% if post.customer.present? %>
+                  <%= image_tag post.customer.get_profile_image(80, 80), class: "rounded-circle" %>
+                  <span class="post-customer"><%= post.customer.name %></span>
+                <% else %>
+                  <span class="post-customer">匿名ユーザー</span>
+                <% end %>
+                <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
+              </div>
+              <div class="post-comment"><%= post.comment %></div>
+              <% if post.image.attached? %>
+                <%= image_tag post.image.variant(resize_to_limit: [270, 200]), class: "post-image" %>
+              <% end %>
+              <!-- 削除リンク -->
+              <%= link_to '削除', admin_group_post_path(@group, post), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger delete-post-link" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>投稿がありません。</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+

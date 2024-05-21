@@ -5,9 +5,10 @@ class CustomersController < ApplicationController
 
   def show
     @customer = Customer.find(params[:id])
-    @post_images = @customer.post_images
+    #@post_images = @customer.post_images
     @following_customers = @customer.following_customers
     @follower_customers = @customer.follower_customers
+    @post_images = @customer.post_images.page(params[:page]).per(10)
   end
   
   def update

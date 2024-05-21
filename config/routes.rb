@@ -36,6 +36,12 @@ end
   get '/admin', to: 'admin/homes#top'
   
   namespace :admin do
+    resources :groups do
+      resources :posts, only: [:destroy]
+    end
+    resources :post_images do
+      resources :post_comments, only: [:edit, :update, :destroy]
+    end
     resources :customers do
       member do
         delete :unsubscribe

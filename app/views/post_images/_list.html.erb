@@ -1,7 +1,9 @@
-<% post_images.each do |post_image| %>
+<div class='jscroll-div'> <!-- 追記　-->
+<table class='table table-hover table-inverse'>
+<% @post_images.each do |post_image| %>
   <div class="card mb-3">
     <%= link_to post_image_path(post_image.id) do %>
-      <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down" %>
+      <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down", loading: "lazy" %>
     <% end %>
     <div class="card-body">
       <p class="card-text">投稿ユーザー画像：<%= image_tag post_image.customer.get_profile_image(100,100), class: "rounded-circle image-slide-down" %></p>
@@ -12,3 +14,27 @@
     </div>
   </div>
 <% end %>
+</table>
+<%= paginate @post_images %>
+</div>
+
+<script>
+document.addEventListener('turbolinks:load', function() {
+  $('.jscroll-div').jscroll({
+    autoTrigger: true,
+    loadingHtml: '<p>読み込み中...</p>', // ローディングメッセージ
+    padding: 10,
+    nextSelector: '.pagination .next a', // 次ページリンクのセレクタ
+    contentSelector: 'div.jscroll-div', // 無限スクロールで読み込むコンテンツ全体を指定
+    callback: function() {
+      $('.pagination').remove(); // 読み込み後にページネーションリンクを削除
+    }
+  });
+});
+</script>
+
+<style>
+  .pagination {
+    visibility: hidden;
+  }
+</style>

@@ -3,6 +3,9 @@ class Admin::HomesController < ApplicationController
 
   def top
     @customers = Customer.all # すべてのユーザー情報を取得する
+    @groups = Group.all
+    @customers = Customer.page(params[:page]).per(10)
+    @groups = Group.page(params[:page]).per(10)
   end
   
   def about
