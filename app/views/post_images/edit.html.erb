@@ -1,16 +1,16 @@
 <%= form_with(model: @post_image, local: true) do |form| %>
+
   <% if @post_image.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@post_image.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <h2><%= pluralize(@post_image.errors.count, "error") %> prohibited this post_image from being saved:</h2>
       <ul>
-        <% @post_image.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
+      <% @post_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
       </ul>
     </div>
   <% end %>
 
-  <!-- 投稿フォームの内容 -->
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
