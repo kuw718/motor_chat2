@@ -1,7 +1,7 @@
 <!-- ユーザーの詳細 -->
 <div>
   <h3><%= @customer.name %></h3>
-  <%= image_tag @customer.get_profile_image(100,100) %>
+  <%= image_tag @customer.get_profile_image(300,300), class: "rounded image-slide-down profile-image-profile" %>
   <% if @customer.id == current_customer.id %>
   <p><%= link_to "プロフィール編集", edit_customer_path(@customer) %></p>
   <% end %>

@@ -1,0 +1,64 @@
+<h1>検索結果</h1>
+
+<div class='jscroll-div'> <!-- 無限スクロールに対応させさせるため　-->
+<% if @results.any? %>
+  <% if @category == 'users' %>
+    <ul>
+      <% @results.each do |user| %>
+        <li><%= link_to user.name, customer_path(user) %></li>
+      <% end %>
+    </ul>
+  <% elsif @category == 'posts' %>
+    <ul>
+      <% @results.each do |post| %>
+        <li><%= link_to post.content, post_path(post) %></li>
+      <% end %>
+    </ul>
+  <% elsif @category == 'posts_images' %>
+    <div class='jscroll-div'>
+      <table class='table table-hover table-inverse'>
+        <% @results.each do |post_image| %>
+          <div class="card mb-3">
+            <%= link_to post_image_path(post_image.id) do %>
+              <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down", loading: "lazy" %>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-text">
+                <%= image_tag post_image.customer.get_profile_image(210,210), class: "rounded image-slide-down profile-image" %>
+                <span class="customer-name"><%= post_image.customer.name %></span>
+              </h5>
+              <h3 class="card-title"><%= post_image.title %></h3>
+              <p class="card-text"><%= post_image.caption %></p>
+              <p class="card-text"><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
+            </div>
+          </div>
+        <% end %>
+      </table>
+      <%= paginate @results %>
+    </div>
+  <% end %>
+<% else %>
+  <p>検索結果が見つかりませんでした。</p>
+<% end %>
+</div>
+
+<script>
+document.addEventListener('turbolinks:load', function() {
+  $('.jscroll-div').jscroll({
+    autoTrigger: true,
+    loadingHtml: '<p>読み込み中...</p>', // ローディングメッセージ
+    padding: 10,
+    nextSelector: '.pagination .next a', // 次ページリンクのセレクタ
+    contentSelector: 'div.jscroll-div', // 無限スクロールで読み込むコンテンツ全体を指定
+    callback: function() {
+      $('.pagination').remove(); // 読み込み後にページネーションリンクを削除
+    }
+  });
+});
+</script>
+
+<style>
+  .pagination {
+    visibility: hidden;
+  }
+</style>

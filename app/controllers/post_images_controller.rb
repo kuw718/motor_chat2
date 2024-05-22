@@ -1,4 +1,5 @@
 class PostImagesController < ApplicationController
+  before_action :authenticate_customer!, except: [:index]
 
   def new
     @post_image = PostImage.new
@@ -7,8 +8,11 @@ class PostImagesController < ApplicationController
   def create
     @post_image = PostImage.new(post_image_params)
     @post_image.customer_id = current_customer.id
-    @post_image.save
-    redirect_to post_images_path
+    if @post_image.save
+      redirect_to post_images_path
+    else
+      render :new
+    end
   end
   
   def index
@@ -25,19 +29,20 @@ class PostImagesController < ApplicationController
   def destroy
     post_image = PostImage.find(params[:id])
     post_image.destroy
-    redirect_to '/post_images'
+    redirect_to post_images_path
   end
   
   def set_featured
+    initialize_featured_images
     $featured_images << params[:id].to_i unless $featured_images.include?(params[:id].to_i)
     redirect_to post_image_path(params[:id]), notice: '注目フラグが設定されました。'
   end
 
   def unset_featured
+    initialize_featured_images
     $featured_images.delete(params[:id].to_i)
     redirect_to post_image_path(params[:id]), notice: '注目フラグが解除されました。'
   end
-
 
   private
   

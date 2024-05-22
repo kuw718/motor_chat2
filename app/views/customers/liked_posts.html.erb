@@ -11,7 +11,7 @@
       <p class="card-text">説明：<%= post_image.caption %></p>
       <div class="d-flex align-items-center">
         <%= link_to customer_path(post_image.customer) do %>
-          <%= image_tag post_image.customer.get_profile_image(100, 100), class: "rounded-circle me-2 image-slide-down" %>
+          <%= image_tag post_image.customer.get_profile_image(210, 210), class: "rounded image-slide-down profile-image" %>
         <% end %>
         <p class="card-text mb-0"><%= post_image.customer.name %></p>
       </div>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+  get 'search', to: 'search#index'
 
   devise_for :customers,skip: [:passwords], controllers: {
     registrations: "public/registrations",
@@ -34,7 +36,6 @@ end
 }
 
   get '/admin', to: 'admin/homes#top'
-  
   namespace :admin do
     resources :groups do
       resources :posts, only: [:destroy]

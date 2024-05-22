@@ -47,6 +47,20 @@
     </header>
     
     <main role="main" class="flex-shrink-0" style="margin-top: 120px;">
+      
+     <% if customer_signed_in? %>
+       <form action="/search" method="get" class="form-inline my-2 my-lg-0 justify-content-end"> <!-- justify-content-end を追加 -->
+         <div class="form-group">
+           <select name="category" class="form-control mr-sm-2">
+             <option value="users">ユーザー</option>
+             <option value="posts_images">投稿画像</option>
+          </select>
+         </div>
+         <input type="text" name="query" class="form-control mr-sm-2" placeholder="検索">
+         <button type="submit" class="btn btn-outline-success my-2 my-sm-0">検索</button>
+      </form>
+     <% end %>
+
       <div class="container">
         <%= yield %>
       </div>
