@@ -14,6 +14,7 @@
     <p class="card-text"><%= @post_image.created_at.strftime('%Y/%m/%d') %></p>
     <% if @post_image.customer == current_customer %>
       <%= link_to "削除", post_image_path(@post_image), method: :delete, class: "btn btn-danger btn-sm me-2" %>
+      <%= link_to "編集", edit_post_image_path(@post_image), class: "btn btn-secondary btn-sm me-2" %>
     <% end %>
     <p>
     <div id="favorites_buttons_<%= @post_image.id %>" style="position: relative;">

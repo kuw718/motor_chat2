@@ -1,6 +1,10 @@
 class PostImagesController < ApplicationController
   before_action :authenticate_customer!, except: [:index]
 
+  def edit
+    @post_image = PostImage.find(params[:id])
+  end
+
   def new
     @post_image = PostImage.new
   end
@@ -42,6 +46,15 @@ class PostImagesController < ApplicationController
     initialize_featured_images
     $featured_images.delete(params[:id].to_i)
     redirect_to post_image_path(params[:id]), notice: '注目フラグが解除されました。'
+  end
+
+  def update
+    @post_image = PostImage.find(params[:id])
+    if @post_image.update(post_image_params)
+      redirect_to @post_image, notice: 'Post image was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   private

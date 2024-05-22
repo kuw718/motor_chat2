@@ -1,0 +1,29 @@
+<%= form_with(model: @post_image, local: true) do |form| %>
+  <% if @post_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post_image.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+        <% @post_image.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- 投稿フォームの内容 -->
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+  <div class="field">
+    <%= form.label :caption %>
+    <%= form.text_area :caption %>
+  </div>
+  <div class="field">
+    <%= form.label :image %>
+    <%= form.file_field :image %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
