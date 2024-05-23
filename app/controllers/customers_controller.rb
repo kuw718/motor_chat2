@@ -17,6 +17,13 @@ class CustomersController < ApplicationController
     redirect_to customer_path(@customer.id)
   end
   
+  def destroy
+    @customer = Customer.find(params[:id])
+    @customer.destroy
+    redirect_to root_path, notice: "アカウントが削除されました。"
+  end
+
+  
   def follows
     customer = Customer.find(params[:id])
     @customers = customer.following_customers

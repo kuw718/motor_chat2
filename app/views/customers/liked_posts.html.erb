@@ -1,4 +1,28 @@
-<!-- app/views/customers/liked_posts.html.erb -->
+<!-- レイアウト -->
+<style>
+.profile-image {
+    width: 100px;
+    height: 90px;
+    object-fit: cover; /* アスペクト比を維持しながら正方形に収めるのに便利 */
+}
+
+.image-slide-down {
+  opacity: 0;
+  animation: slideDown 5s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
 <h1>いいね一覧</h1>
 
 <% @liked_posts.each do |post_image| %>

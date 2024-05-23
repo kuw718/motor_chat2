@@ -1,3 +1,35 @@
+<!-- レイアウト -->
+<style>
+.profile-image {
+    width: 100px;
+    height: 90px;
+    object-fit: cover; /* アスペクト比を維持しながら正方形に収めるのに便利 */
+}
+
+.profile-image-mini {
+    width: 70px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.image-slide-down {
+  opacity: 0;
+  animation: slideDown 5s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+
 <div class="card mb-3">
   <%= link_to post_image_path(@post_image) do %>
     <%= image_tag @post_image.get_image, class: "card-img-top image-slide-down" %>
