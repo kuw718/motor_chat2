@@ -266,7 +266,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   kaminari
-  listen (~> 3.3)
+  listen (~> 3.5)
   mysql2
   net-imap
   net-pop
