@@ -36,6 +36,8 @@ class Post < ApplicationRecord
   end
   
   def resize_image
-    image.variant(resize_to_limit: [800, 800]).processed
+    if image.attached?
+      image.variant(resize_to_limit: [800, 800])
+    end
   end
 end
