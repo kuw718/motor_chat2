@@ -19,14 +19,6 @@
   <div class="chat-group-show-talk">
     <h2>トーク</h2>
 
-    <div class="chat-form">
-<%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
-  <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
-  <%= f.file_field :image %> <!-- 写真をアップロードするフィールド -->
-  <%= f.submit '投稿', class: "post-button" %>
-<% end %>
-    </div>
-
     <% if @posts.present? %>
       <div class="posts">
         <% @posts.each_with_index do |post, index| %>
@@ -48,9 +40,9 @@
               <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
             </div>
             <div class="post-comment"><%= post.comment %></div>
-           <% if post.image.attached? %>
+            <% if post.image.attached? %>
               <%= image_tag post.image.variant(resize_to_limit: [270, 200]), class: "post-image" %>
-          <% end %>
+            <% end %>
           </div>
           <br>
         <% end %>
@@ -58,6 +50,49 @@
     <% else %>
       <p>投稿がありません。</p>
     <% end %>
+
+<!-- 参加申請ボタン -->
+<% unless @group.customers.include?(current_customer) %>
+  <% if @group.join_requests.exists?(customer: current_customer) %>
+    <p>・参加申請済みです。オーナーの入室許可が出るまでしばらくお待ちください。
+    <br>
+    <br>・再度「参加申請」ボタンが表示された場合はオーナーからの入室許可が許可されなかったか、何らかの理由で参加申請に失敗した可能性があります。
+    <br>参加申請をご希望の方はもう一度,再度表示された「参加申請」ボタンをクリックしてください。</p>
+  <% else %>
+    <%= button_to '参加申請', request_join_group_path(@group), method: :post, class: "request-join-button" %>
+  <% end %>
+<% end %>
+
+
+<!-- 承認と拒否のボタンを表示 -->
+<% if @group.customer_ids.include?(current_customer.id) %>
+  <div class="join-requests">
+    <% @group.join_requests.each do |request| %>
+      <div class="join-request">
+        <span><%= request.customer.name %> さんの参加申請</span>
+        <%= button_to '承認', approve_join_group_path(@group, request_id: request.id), method: :post, class: "approve-join-button" %>
+        <%= button_to '拒否', reject_join_group_path(@group, request_id: request.id), method: :post, class: "reject-join-button" %>
+        <% if request.status == "rejected" %>
+          <% unless @group.customers.include?(current_customer) || @group.join_requests.exists?(customer: current_customer) %>
+            <%= button_to '参加申請', request_join_group_path(@group), method: :post, class: "request-join-button" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-</div>
+<% end %>
+
+
+<% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).status == 'approved') %>
+
+<% else %>
+  <div class="chat-form">
+    <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
+      <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
+      <%= f.file_field :image %>
+      <%= f.submit '投稿', class: "post-button" %>
+    <% end %>
+  </div>
+<% end %>
+
 

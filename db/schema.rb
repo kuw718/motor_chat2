@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_23_102636) do
+ActiveRecord::Schema.define(version: 2024_05_23_151753) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -88,14 +88,14 @@ ActiveRecord::Schema.define(version: 2024_05_23_102636) do
     t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
-  create_table "membership_requests", force: :cascade do |t|
-    t.integer "group_id", null: false
-    t.integer "customer_id", null: false
-    t.string "status", default: "pending"
+  create_table "join_requests", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "customer_id"
+    t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["customer_id"], name: "index_membership_requests_on_customer_id"
-    t.index ["group_id"], name: "index_membership_requests_on_group_id"
+    t.index ["customer_id"], name: "index_join_requests_on_customer_id"
+    t.index ["group_id"], name: "index_join_requests_on_group_id"
   end
 
   create_table "post_comments", force: :cascade do |t|
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 2024_05_23_102636) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "group_customers", "customers"
   add_foreign_key "group_customers", "groups"
-  add_foreign_key "membership_requests", "customers"
-  add_foreign_key "membership_requests", "groups"
+  add_foreign_key "join_requests", "customers"
+  add_foreign_key "join_requests", "groups"
   add_foreign_key "posts", "groups"
 end

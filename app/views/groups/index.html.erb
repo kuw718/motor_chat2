@@ -1,50 +1,53 @@
 <div class="chat-group">
-    <h1>チャットグループ一覧</h1>
+    <h1>スレ一覧</h1>
     <div class="group-search">
         <%= form_with url: groups_path, method: :get, local: true, class: "group-search-form" do |f| %>
-            <%= f.text_field :keyword, placeholder: "グループ検索", class: "group-search-form-input" %>
+            <%= f.text_field :keyword, placeholder: "スレ検索", class: "group-search-form-input" %>
             <%= f.submit '検索', class: "group-search-form-submit" %>
         <% end %>
     </div>
     <div class="group-new">
-        <%= link_to 'グループ作成', new_group_path, class: "group-new-link" %>
+        <%= link_to 'スレ作成', new_group_path, class: "group-new-link" %>
     </div>
 
+
+    <h2>参加中・参加申請中のスレ</h2>
     <% if @group_joining.empty? %>
         <p class="no-groups"><%= @group_lists_none %></p>
     <% else %>
-     <div class="group-list">
-         <ul class="group-list-table">
+      <div class="group-list">
+        <ul class="group-list-table">
           <% @group_lists.each do |group| %>
-            <% if group.customer_ids.include?(current_customer.id) %>
-         <li class="group-list-item">
-            <%= link_to group_path(group) do %>
-            <span class="group-name"><%= group.name %></span>
-            <span class="group-member-count">(<%= group.customer_ids.count %>)</span>
-            <%= link_to '編集', edit_group_path(group), method: :get, class: "edit-group-link" %>
-            <%= link_to '削除', group_path(group), method: :delete, data: { confirm: '本当に削除しますか?' }, class: "delete-group-link" %>
-            <% end %>
-         </li>
-          <% end %>
+          <li class="group-list-item">
+              <%= link_to group_path(group) do %>
+                <span class="group-name"><%= group.name %></span>
+                <span class="group-member-count">(<%= group.customer_ids.count %>)</span>
+                <% if group.customer_ids.include?(current_customer.id) %>
+                  <%= link_to '編集', edit_group_path(group), method: :get, class: "edit-group-link" %>
+                  <%= link_to '削除', group_path(group), method: :delete, data: { confirm: '本当に削除しますか?' }, class: "delete-group-link" %>
+                <% end %>
+              <% end %>
+          </li>
           <% end %>
         </ul>
-     </div>
-<% end %>
+      </div>
+    <% end %>
 
-<% if @other_groups.present? %>
-  <div class="group-list">
-    <ul class="group-list-table">
-      <% @other_groups.each do |group| %>
-        <li class="group-list-item">
-          <%= link_to group_path(group) do %>
-            <span class="group-name"><%= group.name %></span>
-            <span class="group-member-count">(<%= group.customer_ids.count %>)</span>
+    <h2>みんなのスレ</h2>
+    <% if @other_groups.present? %>
+      <div class="group-list">
+        <ul class="group-list-table">
+          <% @other_groups.each do |group| %>
+            <li class="group-list-item">
+              <%= link_to group_path(group) do %>
+                <span class="group-name"><%= group.name %></span>
+                <span class="group-member-count">(<%= group.customer_ids.count %>)</span>
+              <% end %>
+            </li>
           <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+        </ul>
+      </div>
+    <% end %>
 
 
     <div class="customer-page">

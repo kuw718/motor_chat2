@@ -23,10 +23,22 @@ Rails.application.routes.draw do
     end
     resource :relationships, only: [:create, :destroy]
   end
-  resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-    resources :posts, only: [:create], shallow: true
-    resources :membership_requests, only: [:create]
+resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+  resources :posts, only: [:create], shallow: true
+    member do
+      post 'request_join'
+      post 'approve_join/:request_id', to: 'groups#approve_join', as: 'approve_join'
+      post 'reject_join/:request_id', to: 'groups#reject_join', as: 'reject_join'
+    end
+end
+
+resources :membership_requests, only: [:update] do
+  member do
+    patch :approve
+    patch :reject
   end
+end
+
 
   # 管理者用
   # URL /admin/sign_in ...
