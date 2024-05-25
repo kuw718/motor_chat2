@@ -64,8 +64,11 @@
 <% end %>
 
 
-<!-- 承認と拒否のボタンを表示 -->
-<% if @group.customer_ids.include?(current_customer.id) %>
+<% if current_customer == @group.customers.first %>
+        <div class="group-actions">
+          <%= link_to '削除', group_path(@group), method: :delete, data: { confirm: '本当に削除しますか?' }, class: "delete-group-link" %>
+          <%= link_to '編集', edit_group_path(@group), method: :get, class: "edit-group-link" %>
+        </div>
   <div class="join-requests">
     <% @group.join_requests.each do |request| %>
       <div class="join-request">
@@ -82,8 +85,7 @@
   </div>
 <% end %>
 
-
-<% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).status == 'approved') %>
+<% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).try(:status) == 'approved') %>
 
 <% else %>
   <div class="chat-form">
@@ -94,5 +96,3 @@
     <% end %>
   </div>
 <% end %>
-
-

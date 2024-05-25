@@ -16,9 +16,12 @@ class PostsController < ApplicationController
 
   def set_group
     @group = Group.find(params[:group_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: 'グループが見つかりませんでした。'
   end
 
   def post_params
     params.require(:post).permit(:comment, :image)
   end
 end
+
