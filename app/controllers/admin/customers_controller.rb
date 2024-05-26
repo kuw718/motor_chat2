@@ -31,7 +31,7 @@ class Admin::CustomersController < ApplicationController
 
   def destroy
     @customer.destroy
-    redirect_to admin_customers_path, notice: "Customer was successfully destroyed."
+    redirect_to admin_path, notice: "Customer was successfully destroyed."
   end
 
   private

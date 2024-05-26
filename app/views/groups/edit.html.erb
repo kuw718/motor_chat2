@@ -5,7 +5,9 @@
     <div class="gtoup-new-form-name">
       <%= f.label :name, 'グループ名' %>
       <%= f.text_field :name, class: 'form-control' %>
+     <div style="display: none;">
       <%= f.collection_check_boxes :customer_ids, Customer.all, :id, :customername %>
+     </div>
     </div>
     <%= f.submit '更新', class: "btn btn-primary" %>
   </div>
