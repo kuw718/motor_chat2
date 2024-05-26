@@ -9,11 +9,11 @@ class GroupsController < ApplicationController
     end
 
     if current_customer
-      @group_joining = current_customer.groups
-      @other_groups = @group_lists.where.not(id: @group_joining.pluck(:id))
+      @group_joining = current_customer.groups.page(params[:page]).per(5)
+      @other_groups = @group_lists.where.not(id: @group_joining.pluck(:id)).page(params[:page]).per(5)
     else
       @group_joining = []
-      @other_groups = Group.all
+      @other_groups = Group.all.page(params[:page]).per(5)
       @group_lists_none = "ログインしていません。"
     end
   end
@@ -39,11 +39,6 @@ class GroupsController < ApplicationController
 
   def edit
   end
-
-def show
-  @group = Group.find(params[:id])
-  @posts = @group.posts.order(created_at: :desc)
-end
 
   def update
     if @group.update(group_params)
@@ -91,8 +86,6 @@ end
     join_request.destroy
     redirect_to @group, notice: '参加申請を拒否しました。'
   end
-
-
 
   private
 
