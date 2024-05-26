@@ -7,11 +7,11 @@ class Customer < ApplicationRecord
   has_many :post_images, dependent: :destroy
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :liked_posts, through: :favorites, source: :post_image
+  has_many :liked_posts, through: :favorites, source: :post_image, dependent: :destroy
   has_many :followers, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :followeds, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
-  has_many :following_customers, through: :followers, source: :followed
-  has_many :follower_customers, through: :followeds, source: :follower
+  has_many :following_customers, through: :followers, source: :followed, dependent: :destroy
+  has_many :follower_customers, through: :followeds, source: :follower, dependent: :destroy
   has_many :group_customers, dependent: :destroy
   has_many :groups, through: :group_customers, dependent: :destroy
   has_one_attached :profile_image

@@ -1,3 +1,45 @@
+<style>
+  /* フォームのフィールドとアクションのスタイル */
+  .field {
+    margin-bottom: 15px; /* フィールドの下部マージンを調整 */
+  }
+
+  .field label {
+    font-weight: bold; /* ラベルのテキストを太字にする */
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="password"],
+  .field input[type="checkbox"] {
+    width: 100%; /* 入力フィールドを幅100%にする */
+    padding: 10px; /* 入力フィールドの余白を追加 */
+    border-radius: 5px; /* 入力フィールドの角を丸くする */
+    border: 1px solid #ccc; /* 入力フィールドの境界線を追加 */
+  }
+
+  .actions {
+    text-align: center; /* アクションボタンを中央揃えにする */
+  }
+
+  .actions input[type="submit"] {
+    background-color: #2f6ba1; /* ボタンの背景色を設定 */
+    color: #ffffff; /* ボタンのテキスト色を設定 */
+    border: none; /* ボタンの境界線を削除 */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    padding: 8px 135px; /* ボタンの余白を追加 */
+    cursor: pointer; /* マウスカーソルをポインターにする */
+    transition: background-color 0.3s; /* ホバー時のアニメーションを追加 */
+    margin-bottom: 35px;
+    margin-top: 35px;
+  }
+
+  .actions input[type="submit"]:hover {
+    background-color: #255b8e; /* ホバー時の背景色を変更 */
+  }
+</style>
+
+
 <% flash.each do |name, msg| %>
   <div class="alert alert-<%= name %>">
     <%= msg %>
@@ -17,12 +59,12 @@
     <%= f.password_field :password, autocomplete: "current-password" %>
   </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
+  <%# if devise_mapping.rememberable? %>
+    <%#div class=field">
+      <%#= f.check_box :remember_me %>
+      <%#= f.label :remember_me %>
+    <%#/div>
+  <%# end %>
 
   <div class="actions">
     <%= f.submit "Log in" %>

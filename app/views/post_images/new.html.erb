@@ -1,4 +1,129 @@
-<%= form_with model: @post_image do |f| %>
+<!-- レイアウト -->
+<style>
+.profile-image-profile {
+    width: 160px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.new-post-button {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  z-index: 999;
+}
+
+.button:hover {
+  box-shadow   : none;                 /* 影の設定 */
+  opacity      : 0.8;                  /* 透明度 */
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* フォームスタイル */
+.post-image-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#error_explanation {
+    color: red;
+    margin-bottom: 20px;
+}
+
+#error_explanation ul {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+#error_explanation li {
+    margin-bottom: 5px;
+}
+
+/* ファイル選択スタイル */
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-input-wrapper .file-input-label {
+  display: block;
+  padding: 10px 15px;
+  background-color: #333333;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-input-wrapper .file-input-label:hover {
+  background-color: #0056b3;
+}
+
+/* 投稿ボタンのスタイル */
+
+.submit-btn {
+  background-color: #2f6ba1;
+  color: #ffffff; /* テキスト色 */
+  border: none;
+  border-radius: 5px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #2f6ba1;
+}
+
+.form-control:focus {
+  outline: none; /* デフォルトの青いアウトラインを削除 */
+  border-color: #5a6066; /* グレーのアウトラインを追加 */
+  box-shadow: 0 0 0 2px #5a6066; /* グレーのアウトラインを追加 */
+}
+</style>
+
+<%= form_with model: @post_image, html: { class: "post-image-form" } do |f| %>
   <% if @post_image.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post_image.errors.count, "error") %> prohibited this post_image from being saved:</h2>
@@ -10,13 +135,26 @@
     </div>
   <% end %>
 
-  <h1>画像投稿フォーム</h1>
-  <h4>画像</h4>
-  <%= f.file_field :image, accept: "image/*" %>
-  <h4>タイトル</h4>
-  <%= f.text_field :title %>
-  <h4>説明</h4>
-  <%= f.text_area :caption %>
-  <%= f.submit '投稿' %>
-<% end %>
+  <div class="form-group">
+    <h1>画像投稿フォーム</h1>
+  </div>
 
+  <div class="form-group file-input-wrapper">
+    <%= f.label :image, "画像", class: "file-input-label" %>
+    <%= f.file_field :image, accept: "image/*", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :title, "タイトル" %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :caption, "説明" %>
+    <%= f.text_area :caption, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit '投稿', class: "btn btn-primary btn-lg btn-block submit-btn" %>
+  </div>
+<% end %>

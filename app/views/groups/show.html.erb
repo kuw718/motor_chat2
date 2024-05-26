@@ -1,17 +1,136 @@
 <!-- レイアウト -->
 <style>
-.profile-image-chat {
+  .profile-image-chat {
     width: 38px;
     height: 28px;
     object-fit: cover;
+  }
+  .group-show {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .post {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .post-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .post-number {
+    font-weight: bold;
+    margin-right: 5px;
+    color: black; /* 追加 */
+  }
+  .post-customer {
+    font-weight: bold;
+    margin-right: 5px;
+    color: black; /* 追加 */
+  }
+  .post-date {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: auto;
+  }
+  .post-comment {
+    margin-bottom: 10px;
+    color: black; /* 追加 */
+  }
+  .post-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .join-request {
+    margin-bottom: 10px;
+  }
+  .chat-form {
+    margin-top: 20px;
+    padding: 5px;
+  }
+  .comment-field {
+    width: 100%;
+    height: 60px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  .post-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #2f6ba1;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* リンクスタイル */
+a {
+    color: #333333; /* リンクのデフォルト色 */
+    text-decoration: none;
 }
+
+a:hover {
+    color: #333333; /* ホバー時のリンク色 */
+}
+
+ .join-request {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+
+  .join-request span {
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+  }
+
+  .join-request button {
+    margin-right: 5px;
+    background-color: #2f6ba1;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .join-request button:hover {
+    background-color: #1d4a7a;
+  }
+
+  .approve-join-button,
+  .reject-join-button,
+  .request-join-button {
+    margin-right: 5px;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .approve-join-button:hover,
+  .reject-join-button:hover,
+  .request-join-button:hover {
+    background-color: black;
+  }
 </style>
+
 
 <div class="group-show">
   <div class="show-group-chat-back">
     <span class="group-show-group-chat-back">
       <%= link_to groups_path do %>
-        ＜
+        ＜戻る
       <% end %>
     </span>
   </div>
@@ -37,61 +156,60 @@
               <% else %>
                 <span class="post-customer">匿名ユーザー</span>
               <% end %>
-              <span class="post-date"><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
+              <span class="post-date"><%= post.created_at.in_time_zone("Tokyo").strftime("%Y-%m-%d %H:%M:%S") %></span>
             </div>
             <div class="post-comment"><%= post.comment %></div>
             <% if post.image.attached? %>
               <%= image_tag post.image.variant(resize_to_limit: [270, 200]), class: "post-image" %>
             <% end %>
           </div>
-          <br>
         <% end %>
       </div>
     <% else %>
       <p>投稿がありません。</p>
     <% end %>
 
-<!-- 参加申請ボタン -->
-<% unless @group.customers.include?(current_customer) %>
-  <% if @group.join_requests.exists?(customer: current_customer) %>
-    <p>・参加申請済みです。オーナーの入室許可が出るまでしばらくお待ちください。
-    <br>
-    <br>・再度「参加申請」ボタンが表示された場合はオーナーからの入室許可が許可されなかったか、何らかの理由で参加申請に失敗した可能性があります。
-    <br>参加申請をご希望の方はもう一度,再度表示された「参加申請」ボタンをクリックしてください。</p>
-  <% else %>
-    <%= button_to '参加申請', request_join_group_path(@group), method: :post, class: "request-join-button" %>
-  <% end %>
-<% end %>
+    <!-- 参加申請ボタン -->
+    <% unless @group.customers.include?(current_customer) %>
+      <% if @group.join_requests.exists?(customer: current_customer) %>
+        <p>・参加申請済みです。オーナーからの入室許可が出るまでしばらくお待ちください。
+        <br>
+        <br>・再度「インターホンを鳴らす(参加申請をする)」ボタンが表示された場合はオーナーが留守だった、寝ている、入室許可が許可されなかった等、何らかの理由で入室に失敗した可能性があります。
+        <br><br>・入室をご希望の方はもう一度,再度表示された「インターホンを鳴らす(参加申請をする)」ボタンをクリックしてください。</p>
+      <% else %>
+        <%= button_to 'インターホンを鳴らす♪(参加申請をする)', request_join_group_path(@group), method: :post, class: "request-join-button" %>
+      <% end %>
+    <% end %>
 
-
-<% if current_customer == @group.customers.first %>
-        <div class="group-actions">
-          <%= link_to '削除', group_path(@group), method: :delete, data: { confirm: '本当に削除しますか?' }, class: "delete-group-link" %>
-          <%= link_to '編集', edit_group_path(@group), method: :get, class: "edit-group-link" %>
-        </div>
-  <div class="join-requests">
-    <% @group.join_requests.each do |request| %>
-      <div class="join-request">
-        <span><%= request.customer.name %> さんの参加申請</span>
-        <%= button_to '承認', approve_join_group_path(@group, request_id: request.id), method: :post, class: "approve-join-button" %>
-        <%= button_to '拒否', reject_join_group_path(@group, request_id: request.id), method: :post, class: "reject-join-button" %>
-        <% if request.status == "rejected" %>
-          <% unless @group.customers.include?(current_customer) || @group.join_requests.exists?(customer: current_customer) %>
-            <%= button_to '参加申請', request_join_group_path(@group), method: :post, class: "request-join-button" %>
-          <% end %>
+    <% if current_customer == @group.customers.first %>
+      <div class="group-actions">
+        <%= link_to 'スレを削除する', group_path(@group), method: :delete, data: { confirm: '本当に削除しますか?' }, class: "delete-group-link" %>
+        <%= link_to 'スレの編集', edit_group_path(@group), method: :get, class: "edit-group-link" %>
+      </div></br>
+      <div class="join-requests">
+        <% @group.join_requests.each do |request| %>
+          <div class="join-request">
+            <span><%= request.customer.name %> さんの参加申請</span>
+            <%= button_to '承認する', approve_join_group_path(@group, request_id: request.id), method: :post, class: "approve-join-button" %>
+            <%= button_to '拒否する', reject_join_group_path(@group, request_id: request.id), method: :post, class: "reject-join-button" %>
+            <% if request.status == "rejected" %>
+              <% unless @group.customers.include?(current_customer) || @group.join_requests.exists?(customer: current_customer) %>
+                <%= button_to 'インターホンを鳴らす(参加申請をする)', request_join_group_path(@group), method: :post, class: "request-join-button" %>
+              <% end %>
+            <% end %>
+          </div>
         <% end %>
       </div>
     <% end %>
-  </div>
-<% end %>
 
-<% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).try(:status) == 'approved') %>
-
-<% else %>
-  <div class="chat-form">
+    <% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).try(:status) == 'approved') %>
+    
+    <% else %>
+      <div class="chat-form">
     <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
       <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
       <%= f.file_field :image %>
+      </br></br>
       <%= f.submit '投稿', class: "post-button" %>
     <% end %>
   </div>

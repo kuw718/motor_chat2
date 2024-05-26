@@ -59,13 +59,13 @@
       <td>
       <% if current_customer != @customer %>
           <% if current_customer.following?(@customer) %>
-            <%= link_to "フォロー外す", customer_relationships_path(@customer), method: :delete, class: "btn btn-danger" %>
+            <%= link_to "フォローを解除", customer_relationships_path(@customer), method: :delete, class: "btn btn-danger" %></br></br>
           <% else %>
-            <%= link_to "フォローする", customer_relationships_path(@customer), method: :post, class:"btn btn-success" %>
+            <%= link_to "フォローする", customer_relationships_path(@customer), method: :post, class:"btn btn-success" %></br></br>
           <% end %>
         <% end %>
       </td>
-
+<p><%= link_to 'いいねした投稿一覧', liked_posts_customer_path(@customer) %><p>
 <!-- ユーザーの投稿一覧 -->
 <%= render 'post_images/list', post_images: @post_images %>
 
@@ -73,6 +73,3 @@
 <%= link_to new_post_image_path, class: "new-post-button", id: "newPostButton" do %>
   <%= image_tag "20739.png", class: "button", onclick: "goClick()", width: 130, height: 130, alt: "投稿ボタン" %>
 <% end %>
-
-<!-- 例: app/views/customers/show.html.erb -->
-<%= link_to 'いいね一覧', liked_posts_customer_path(@customer), class: 'btn btn-primary' %>

@@ -1,3 +1,49 @@
+<style>
+  /* フォームのフィールドとアクションのスタイル */
+  .field {
+    margin-bottom: 15px; /* フィールドの下部マージンを調整 */
+  }
+
+  .field label {
+    font-weight: bold; /* ラベルのテキストを太字にする */
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="password"],
+  .field input[type="checkbox"] {
+    width: 100%; /* 入力フィールドを幅100%にする */
+    padding: 10px; /* 入力フィールドの余白を追加 */
+    border-radius: 5px; /* 入力フィールドの角を丸くする */
+    border: 1px solid #ccc; /* 入力フィールドの境界線を追加 */
+  }
+
+  .actions {
+    text-align: center; /* アクションボタンを中央揃えにする */
+  }
+
+  .actions input[type="submit"] {
+    background-color: #2f6ba1; /* ボタンの背景色を設定 */
+    color: #ffffff; /* ボタンのテキスト色を設定 */
+    border: none; /* ボタンの境界線を削除 */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    padding: 10px 20px; /* ボタンの余白を追加 */
+    cursor: pointer; /* マウスカーソルをポインターにする */
+    transition: background-color 0.3s; /* ホバー時のアニメーションを追加 */
+  }
+
+  .actions input[type="submit"]:hover {
+    background-color: #255b8e; /* ホバー時の背景色を変更 */
+  }
+  
+  .form-control:focus {
+  outline: none;
+  border-color: #5a6066;
+  box-shadow: 0 0 0 2px #5a6066;
+}
+</style>
+
+
 <h2>Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>

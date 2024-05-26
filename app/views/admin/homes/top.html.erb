@@ -1,5 +1,3 @@
-<li><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete, class: 'menu-button' %></li>
-
 <div class="container">
   <div class="row">
     <div class="col-md-6">
@@ -59,4 +57,8 @@
 
 <br></br>
 
-<h2>ユーザー投稿一覧は<%= link_to 'こちら', admin_post_images_path %></h2>
+<h3>ユーザー投稿一覧は<%= link_to 'こちら', admin_post_images_path %></h3>
+
+<br></br>
+
+<%= link_to 'ログアウトはこちら', destroy_admin_session_path, method: :delete %>

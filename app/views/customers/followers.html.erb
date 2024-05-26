@@ -20,7 +20,7 @@
         <% if current_customer != customer %>
         <td>
         <% if current_customer.following?(customer) %>
-          <%= link_to "フォロー解除", customer_relationships_path(customer), method: :delete, class: "btn btn-danger" %>
+          <%= link_to "フォローを解除", customer_relationships_path(customer), method: :delete, class: "btn btn-danger" %>
         <% else %>
           <%= link_to "フォローバック", customer_relationships_path(customer), method: :post, class: "btn btn-success" %>
         <% end %>

@@ -1,3 +1,65 @@
+<style>
+/* ベーススタイル */
+body {
+    background-color: #ffffff; /* ライトモードの背景色 */
+    color: #000000; /* ライトモードのテキスト色 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2em;
+    color: #000000; /* ライトモードのテキスト色 */
+}
+
+.card-text {
+    color: #000000; /* ライトモードのテキスト色 */
+}
+
+.card-text .badge {
+    background-color: #333333; /* カーボン色 */
+    color: #ffffff; /* ボタンテキスト色 */
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.card-text .badge:hover {
+    background-color: #cccccc; /* ホバー時の背景色 */
+    color: #333333; /* ホバー時のテキスト色 */
+}
+
+
+
+/* リンクスタイル */
+a {
+    color: #333333; /* リンクのデフォルト色 */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #333333; /* ホバー時のリンク色 */
+}
+
+/* リストスタイル */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-badge {
+    background-color: #778899;
+    color: black;
+}
+</style>
+
+
 <% unless @featured_post_images.empty? %>
   <div class="featured-posts">
     <h2>現在の自動車盗難情報はこちら</h2>
@@ -58,7 +120,7 @@
           <%= link_to group_path(group), class: 'text-decoration-none text-dark' do %>
             <span class="group-name">★<%= group.name %></span>
           <% end %>
-          <span class="badge bg-primary rounded-pill"><%= group.customer_ids.count %></span>
+          <span class="badge custom-badge rounded-pill"><%= group.customer_ids.count %></span>
         </li>
       <% end %>
     </ul>
@@ -73,7 +135,7 @@
           <%= link_to group_path(group), class: 'text-decoration-none text-dark' do %>
             <span class="group-name">★<%= group.name %></span>
           <% end %>
-          <span class="badge bg-primary rounded-pill"><%= group.customer_ids.count %></span>
+          <span class="badge custom-badge rounded-pill"><%= group.customer_ids.count %></span>
         </li>
       <% end %>
     </ul>

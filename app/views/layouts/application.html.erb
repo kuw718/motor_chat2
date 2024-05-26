@@ -19,12 +19,18 @@
   padding: 10px;
   background-color: #f8f9fa;
 }
+
+.form-control:focus {
+  outline: none;
+  border-color: #5a6066;
+  box-shadow: 0 0 0 2px #5a6066;
+}
 </style>
 
   <body class="d-flex flex-column h-100">
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand p-2" href="/"><%= image_tag('logo.png') %></a>
+        <a class="navbar-brand" href="/"><%= image_tag('logo.png') %></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -88,10 +94,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <%= link_to 'プライバシーポリシー', new_post_image_path, class: 'nav-link' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to 'お問い合わせ', about_path, class: 'nav-link' %>
+                <%= link_to 'お問い合わせ・プライバシーポリシー', about_path, class: 'nav-link' %>
               </li>
           </ul>
         </div>

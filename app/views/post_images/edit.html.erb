@@ -1,5 +1,104 @@
-<%= form_with(model: @post_image, local: true) do |form| %>
+<style>
+/* 共通フォームスタイル */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
 
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#error_explanation {
+    color: red;
+    margin-bottom: 20px;
+}
+
+#error_explanation ul {
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+#error_explanation li {
+    margin-bottom: 5px;
+}
+
+/* ファイル選択スタイル */
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-input-wrapper .file-input-label {
+  display: block;
+  padding: 10px 15px;
+  background-color: #778899;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-input-wrapper .file-input-label:hover {
+  background-color: #0056b3;
+}
+
+/* 保存ボタンスタイル */
+.blue-button {
+  background-color: #2f6ba1;
+  color: #ffffff; /* テキスト色 */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.blue-button:hover {
+  background-color: #2f6ba1;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #5a6066;
+  box-shadow: 0 0 0 2px #5a6066;
+}
+
+/* フォームとボタンのホバー時のスタイル */
+.file-input-wrapper .file-input-label:hover,
+.form-control:hover {
+  background-color: white; /* ホバー時の背景色を白に変更 */
+}
+</style>
+
+
+<%= form_with(model: @post_image, local: true, html: { class: "form-container" }) do |form| %>
   <% if @post_image.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@post_image.errors.count, "error") %> prohibited this post_image from being saved:</h2>
@@ -11,19 +110,22 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= form.label :caption %>
-    <%= form.text_area :caption %>
+    <%= form.text_area :caption, class: 'form-control' %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= form.label :image %>
-    <%= form.file_field :image %>
+    <div class="file-input-wrapper">
+      <span class="file-input-label">画像を選択</span>
+      <%= form.file_field :image, class: 'form-control' %>
+    </div>
   </div>
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.submit '編集を保存', class: "btn btn-primary blue-button" %>
   </div>
 <% end %>
