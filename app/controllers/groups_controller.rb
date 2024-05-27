@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_group, only: [:edit, :update, :show, :destroy, :request_join, :approve_join, :reject_join]
+  before_action :set_group, only: [:edit, :update, :show, :destroy, :request_join, :approve_join, :reject_join, :withdraw_join_request]
   
   def index
     if params[:keyword].present?
@@ -87,6 +87,16 @@ class GroupsController < ApplicationController
     redirect_to @group, notice: '参加申請を拒否しました。'
   end
 
+  def withdraw_join_request
+    join_request = @group.join_requests.find_by(customer: current_customer)
+    if join_request
+      join_request.destroy
+      redirect_to @group, notice: '参加申請を取り下げました。'
+    else
+      redirect_to @group, alert: '参加申請が見つかりませんでした。'
+    end
+  end
+  
   private
 
   def set_group

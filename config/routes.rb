@@ -33,6 +33,7 @@ resources :groups, only: [:index, :new, :create, :show, :edit, :update, :destroy
       post 'request_join'
       post 'approve_join/:request_id', to: 'groups#approve_join', as: 'approve_join'
       post 'reject_join/:request_id', to: 'groups#reject_join', as: 'reject_join'
+      delete 'withdraw_join_request', to: 'groups#withdraw_join_request'
     end
 end
 

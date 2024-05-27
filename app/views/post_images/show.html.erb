@@ -67,7 +67,7 @@
     <% end %>
     <div id="favorites_buttons_<%= @post_image.id %>" style="position: relative;">
     <!-- ♡と♥ボタン以外をクリックできないようにする為、透明な子要素を挿入しています -->
-      <div class="transparent-cover" style="position: absolute; top: 0; left: 1%; width: 80%; height: 100%; pointer-events: auto;"></div>
+      <div class="transparent-cover" style="position: absolute; top: 0; left: 1%; width: 70%; height: 100%; pointer-events: auto;"></div>
       <% if @post_image.favorited_by?(current_customer) %>
         <%= link_to post_image_favorite_path(@post_image), method: :delete, remote: true, class: "favorite-link" do %>
           <span class="favorite-icon">♥</span> <%= @post_image.favorites.count %> いいね

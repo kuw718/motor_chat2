@@ -172,10 +172,10 @@ a:hover {
     <!-- 参加申請ボタン -->
     <% unless @group.customers.include?(current_customer) %>
       <% if @group.join_requests.exists?(customer: current_customer) %>
-        <p>・参加申請済みです。オーナーからの入室許可が出るまでしばらくお待ちください。
-        <br>
-        <br>・再度「インターホンを鳴らす(参加申請をする)」ボタンが表示された場合はオーナーが留守だった、寝ている、入室許可が許可されなかった等、何らかの理由で入室に失敗した可能性があります。
+        <p>・参加申請中です。オーナーからの入室許可が出るまでしばらくお待ちください。
+        <br><br>・再度「インターホンを鳴らす(参加申請をする)」ボタンが表示された場合はオーナーが留守だった、寝ている、入室許可が許可されなかった等、何らかの理由で入室に失敗した可能性があります。
         <br><br>・入室をご希望の方はもう一度,再度表示された「インターホンを鳴らす(参加申請をする)」ボタンをクリックしてください。</p>
+        <%= button_to '参加申請を取り下げる', withdraw_join_request_group_path(@group), method: :delete, class: "request-join-button" %>
       <% else %>
         <%= button_to 'インターホンを鳴らす♪(参加申請をする)', request_join_group_path(@group), method: :post, class: "request-join-button" %>
       <% end %>
@@ -192,25 +192,20 @@ a:hover {
             <span><%= request.customer.name %> さんの参加申請</span>
             <%= button_to '承認する', approve_join_group_path(@group, request_id: request.id), method: :post, class: "approve-join-button" %>
             <%= button_to '拒否する', reject_join_group_path(@group, request_id: request.id), method: :post, class: "reject-join-button" %>
-            <% if request.status == "rejected" %>
-              <% unless @group.customers.include?(current_customer) || @group.join_requests.exists?(customer: current_customer) %>
-                <%= button_to 'インターホンを鳴らす(参加申請をする)', request_join_group_path(@group), method: :post, class: "request-join-button" %>
-              <% end %>
-            <% end %>
           </div>
         <% end %>
       </div>
     <% end %>
 
-    <% unless current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && !@group.join_requests.find_by(customer: current_customer).try(:status) == 'approved') %>
-    
-    <% else %>
+    <% if current_customer == @group.customers.first || @group.customers.include?(current_customer) || (@group.join_requests.any? && @group.join_requests.find_by(customer: current_customer).try(:status) == 'approved') %>
       <div class="chat-form">
-    <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
-      <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
-      <%= f.file_field :image %>
-      </br></br>
-      <%= f.submit '投稿', class: "post-button" %>
+        <%= form_with(model: [@group, @group.posts.build], local: true, class: "post-form", multipart: true) do |f| %>
+          <%= f.text_area :comment, placeholder: "コメント", class: "comment-field" %>
+          <%= f.file_field :image %>
+          </br></br>
+          <%= f.submit '投稿', class: "post-button" %>
+        <% end %>
+      </div>
     <% end %>
   </div>
-<% end %>
+</div>

@@ -19,33 +19,10 @@ class CustomersController < ApplicationController
   
   def destroy
     @customer = Customer.find(params[:id])
-    
-    ActiveRecord::Base.transaction do
-      # 関連レコードを手動で削除
-      @customer.post_images.each do |post_image|
-        post_image.image.purge if post_image.image.attached?
-        post_image.destroy!
-      end
-      @customer.post_comments.destroy_all
-      @customer.favorites.destroy_all
-      @customer.followers.destroy_all
-      @customer.followeds.destroy_all
-      @customer.group_customers.destroy_all
-
-      # 顧客に関連するActive Storageの添付ファイルも削除
-      @customer.profile_image.purge if @customer.profile_image.attached?
-
-      # 最後に顧客レコードを削除
-      @customer.destroy!
-    end
-
+    @customer.destroy
     redirect_to root_path, notice: "アカウントが削除されました。"
-  rescue ActiveRecord::RecordNotDestroyed, ActiveRecord::InvalidForeignKey => e
-    redirect_to root_path, alert: "アカウントの削除に失敗しました: #{e.message}"
   end
 
-
-  
   def follows
     customer = Customer.find(params[:id])
     @customers = customer.following_customers

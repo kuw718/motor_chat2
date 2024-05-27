@@ -1,5 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>グループ編集</title>
 <style>
-/* フォーム全体のスタイル */
+/* スタイル */
 .group-new-form {
   max-width: 500px;
   margin: 0 auto;
@@ -9,7 +15,6 @@
   background-color: #f9f9f9;
 }
 
-/* フォームグループのスタイル */
 .group-new-form .form-group {
   margin-bottom: 20px;
 }
@@ -25,17 +30,15 @@
   border-radius: 5px;
 }
 
-/* フォーカス時のスタイル */
 .group-new-form .form-control:focus {
   outline: none;
   border-color: #5a6066;
   box-shadow: 0 0 0 2px #5a6066;
 }
 
-/* ボタンスタイル */
 .blue-button {
   background-color: #2f6ba1;
-  color: #ffffff; /* テキスト色 */
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -44,22 +47,45 @@
 }
 
 .blue-button:hover {
-  background-color: #2f6ba1;
+  background-color: #1d4a7a;
 }
 </style>
-
+</head>
+<body>
 <h1>グループ編集</h1>
-
 <%= form_with(model: @group, local: true, html: { class: "group-new-form" }) do |f| %>
   <div class="form-group">
     <%= f.label :name, 'グループ名' %>
     <%= f.text_field :name, class: 'form-control' %>
   </div>
-  <div class="form-group" style="display: none;">
+  <!-- 管理者用パスワード入力フォーム -->
+  <div class="form-group">
+    <%= label_tag 'admin_password', '管理者用パスワード' %>
+    <%= password_field_tag 'admin_password', nil, class: 'form-control' %>
+  </div>
+  <!-- 制御する要素 -->
+  <div id="hiddenForm" class="form-group" style="display: none;">
     <%= f.collection_check_boxes :customer_ids, Customer.all, :id, :customername %>
   </div>
   <div class="form-group">
     <%= f.submit '更新', class: "btn btn-primary blue-button" %>
   </div>
 <% end %>
+<!-- JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 管理者用パスワードを入力したときの処理
+  document.getElementById('admin_password').addEventListener('input', function() {
+    var password = this.value;
+    // 管理者用パスワードが"2375485677843"の場合、要素を表示する,ただしページが表示されてから１度リロードしてからパスワードを打たないとパスワードが反映されないことに注意！！
+    if (password === '2375s485a677d843i') {
+      document.getElementById('hiddenForm').style.display = 'block';
+    } else {
+      document.getElementById('hiddenForm').style.display = 'none';
+    }
+  });
+});
+</script>
+</body>
+</html>
 
