@@ -1,6 +1,8 @@
 class Admin::CustomersController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_customer, only: [:edit, :update, :destroy, :unsubscribe]
+  before_action :disable_foreign_keys, only: [:destroy]
+
 
   def show
   end
@@ -42,5 +44,9 @@ class Admin::CustomersController < ApplicationController
 
   def customer_params
     params.require(:customer).permit(:name, :email, :profile_image)
+  end
+  
+  def disable_foreign_keys
+    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
   end
 end

@@ -1,4 +1,6 @@
 class CustomersController < ApplicationController
+  before_action :disable_foreign_keys, only: [:destroy]
+  
   def edit
     @customer = Customer.find(params[:id])
   end
@@ -41,5 +43,9 @@ class CustomersController < ApplicationController
 
   def customer_params
     params.require(:customer).permit(:name, :profile_image)
+  end
+  
+  def disable_foreign_keys
+    ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
   end
 end
