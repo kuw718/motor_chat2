@@ -69,13 +69,13 @@ ul {
           <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down" %>
         <% end %>
         <div class="card-body">
-          <p class="card-text">ショップ名：<%= post_image.title %></p>
-          <p class="card-text">説明：<%= post_image.caption %></p>
+          <p class="card-text"><%= post_image.title %></p>
+          <p class="card-text"><%= post_image.caption %></p>
           <div class="d-flex align-items-center">
               <%= image_tag post_image.customer.get_profile_image(100, 100), class: "rounded-circle me-2 image-slide-down" %>
             <p class="card-text mb-0"><%= post_image.customer.name %></p>
           </div>
-          <p class="card-text">投稿日時：<%= post_image.created_at.strftime('%Y/%m/%d') %></p>
+          <p class="card-text"><%= post_image.created_at.strftime('%Y/%m/%d') %></p>
           <p class="card-text"><%= link_to "#{post_image.post_comments.count} コメント", post_image_path(post_image.id) %></p>
         </div>
       </div>
@@ -95,7 +95,7 @@ ul {
           <%= image_tag post_image.resized_image, class: "card-img-top image-slide-down" %>
         <% end %>
         <div class="card-body">
-          <p class="card-text">投稿ユーザー画像：<%= image_tag post_image.customer.get_profile_image(100,100), class: "rounded-circle image-slide-down" %></p>
+          <p class="card-text"><%= image_tag post_image.customer.get_profile_image(100,100), class: "rounded-circle image-slide-down" %></p>
           <h5 class="card-title"><%= post_image.title %></h5>
           <p class="card-text"><%= post_image.caption %></p>
           <p class="card-text"><%= post_image.customer.name %></p>
