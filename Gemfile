@@ -59,9 +59,7 @@ gem 'devise'
 
 gem 'dotenv-rails'
 
-group :production, :staging do
-    gem 'mysql2'
-end
+gem 'mysql2', '~> 0.5.3'
 
 gem "net-smtp"
 gem "net-pop"
