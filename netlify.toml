@@ -1,0 +1,2 @@
+[build]
+  command = "sudo apt-get install -y libmysqlclient-dev && bundle install && bundle exec rake"

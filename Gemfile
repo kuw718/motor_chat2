@@ -59,7 +59,7 @@ gem 'devise'
 
 gem 'dotenv-rails'
 
-gem 'mysql2', '~> 0.5.3'
+gem 'mysql2', '>= 0.5.3', '< 0.6.0'
 
 gem "net-smtp"
 gem "net-pop"
